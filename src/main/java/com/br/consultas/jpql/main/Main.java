@@ -41,7 +41,7 @@ public class Main {
   
   public static void returnUsuarios (EntityManager entityManager) {
 	   
-	   String jplqUsuario = "select u from Usuario u join fetch u.dominio";
+	   String jplqUsuario = "select u from Usuario u join fetch u.dominio join fetch u.configuracao";
 	   TypedQuery<Usuario> usuarios = entityManager.createQuery(jplqUsuario, Usuario.class);
 	   
 	   List<Usuario> listaUsuarios = usuarios.getResultList();
