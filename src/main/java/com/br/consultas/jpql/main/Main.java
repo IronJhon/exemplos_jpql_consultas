@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import com.br.consultas.jpql.main.dto.model.Dominio;
 import com.br.consultas.jpql.main.dto.model.Usuario;
 
 
@@ -23,7 +24,9 @@ public class Main {
 	        
 	        //paginandoResultados(entityManager);
 	        //retornandoClientes(entityManager);
-	        returnUsuarios(entityManager);
+	        //returnUsuarios(entityManager);
+	        //returnIsEmptyDominio(entityManager);
+	        findWithUsernameInDomain(entityManager);
 	}
 	
 	
@@ -49,6 +52,22 @@ public class Main {
 	   listaUsuarios.forEach(pessoas -> System.out.println(pessoas.getNome()));
 		   
 	   
+  }  
+  
+  public static void returnIsEmptyDominio(EntityManager entityManager) {
+	  String jpql = "select d from Dominio d where d.usuarios is empty";
+	  TypedQuery<Dominio> listUsuariosSemDominio = entityManager.createQuery(jpql, Dominio.class);
+	  List<Dominio> listUsuariosSemDominio0 = listUsuariosSemDominio.getResultList();
+	  listUsuariosSemDominio0.forEach(d -> System.out.println(d.getNome()));
+  }
+  
+
+  public static void findWithUsernameInDomain(EntityManager entityManager) {
+	  String jpql = "select u from Usuario u where u.dominio.nome like :searchName";
+	  TypedQuery<Usuario> listDominios = entityManager.createQuery(jpql, Usuario.class)
+			  .setParameter("searchName", "LDAP");
+	  List<Usuario> listNameWithUsuario = listDominios.getResultList();
+	  listNameWithUsuario.forEach(u -> System.out.println(u.getNome()));
   }
 	   
 	   
